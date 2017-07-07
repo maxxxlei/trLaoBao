@@ -1,7 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ctpConfig>
 	<trlaobao>
-	<laobao></laobao>
-	<laobao1>啊是dadsasdas</laobao1>
+		<maintenanceFormMain>
+			<tableName>formmain_0094</tableName>
+			<userCode>field0007</userCode>
+		</maintenanceFormMain>
+		<maintenanceFormSon>
+			<tableName>formson_0095</tableName>
+			<lbCode>field0010</lbCode>
+			<lbSize>field0011</lbSize>
+		</maintenanceFormSon>
+		
+		
+		<updateFormMain>
+			<tableName>formmain_0096</tableName>
+			<userCode>field0007</userCode>
+		</updateFormMain>
+		<updateFormSon>
+			<tableName>formson_0097</tableName>
+			<lbCode>field0010</lbCode>
+			<lbSize>field0012</lbSize>
+		</updateFormSon>
 	</trlaobao>
 </ctpConfig>

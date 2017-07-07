@@ -4,5 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 	<!-- 尺码更新流程事件 -->
-	<bean id="updateSizeFlowEvent" class="com.seeyon.apps.gold.testlistener.listener.UpdateSizeFlowEvent" />
+	<bean id="updateSizeFlowEvent" class="com.seeyon.apps.goldwind.trlaobao.listener.UpdateSizeFlowEvent" />
+	<bean id="lbManager" class="com.seeyon.apps.goldwind.trlaobao.manager.LbManagerImpl" />
+	<bean id="lbDao" class="com.seeyon.apps.goldwind.trlaobao.dao.LbDaoImpl" />
 </beans>
