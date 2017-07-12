@@ -4,7 +4,38 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 	<!-- 尺码更新流程事件 -->
+	<bean id="updateHistoryEvent" class="com.seeyon.apps.goldwind.trlaobao.listener.UpdateHistoryEvent" />
 	<bean id="updateSizeFlowEvent" class="com.seeyon.apps.goldwind.trlaobao.listener.UpdateSizeFlowEvent" />
 	<bean id="lbManager" class="com.seeyon.apps.goldwind.trlaobao.manager.LbManagerImpl" />
 	<bean id="lbDao" class="com.seeyon.apps.goldwind.trlaobao.dao.LbDaoImpl" />
+	
+	 <!--定时自动发起审批流程  
+    <bean id="softFlowJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lbManager"/>
+        </property>
+        <property name="targetMethod">
+            <value>sendFlowJob</value>
+        </property>
+        <property name="concurrent" value="false"></property>
+    </bean>
+    
+    <bean id="softFlowDoTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="softFlowJobTask"/>
+        </property>
+        <property name="cronExpression">
+        	<value>0 0/05 * * * ?</value> 
+        </property>
+    </bean>
+    
+    <bean id="vensystcStartQuertz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                 <ref bean="softFlowDoTime"/>
+            </list>
+        </property>
+    </bean>
+    -->
+   
 </beans>

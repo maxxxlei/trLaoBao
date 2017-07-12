@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ctpConfig>
 	<trlaobao>
+	
+		<!-- 修改劳保尺寸表单  maintenance (维护) START -->
 		<maintenanceFormMain>
 			<tableName>formmain_0094</tableName>
 			<userCode>field0007</userCode>
@@ -21,5 +23,54 @@
 			<lbCode>field0010</lbCode>
 			<lbSize>field0012</lbSize>
 		</updateFormSon>
+		<!-- 修改劳保尺寸表单  END -->
+		
+		<!-- 发起领导审批流程表单  START -->
+		<serialNumberId desc="表单流水号ID">5250559630908748606</serialNumberId>
+        <startFlowMemberId>4278659508858996417</startFlowMemberId>
+        <subject>领导审批流程</subject>
+        <templateCode>flow</templateCode>
+        <tokenUrl>http://127.0.0.1:8080/seeyon/services/authorityService?wsdl</tokenUrl>
+        <sendFormUrl>http://127.0.0.1:8080/seeyon/services/BPMService?wsdl</sendFormUrl>
+        <formMain>
+        	<formMainTable>formmain_0100</formMainTable>
+        	<version>field0001</version>
+        </formMain>
+        <formSon>
+        	<formSonTable>formson_0101</formSonTable>
+        	<userName>field0006</userName>
+        	<userCode>field0007</userCode>
+        	<lbCode>field0004</lbCode>
+        	<lbName>field0003</lbName>
+        	<lbSize>field0005</lbSize>
+        	<lbCount>field0008</lbCount>
+        	<lbGrantDate>field0009</lbGrantDate>
+        </formSon>
+        <!-- 发起领导审批流程表单  END -->
+        
+        
+        <!-- 历史纪录表 start -->
+        <historyFormMain>
+        	<formMainTable>formmain_0102</formMainTable>
+        	<company desc="单位">field0001</company>
+        	<department desc="部门">field0002</department>
+        	<post desc="岗位">field0003</post>
+        	<userName desc="人员">field0004</userName>
+        	<userCode desc="人员编号">field0007</userCode>
+        	<sendDate desc="领取时间">field0005</sendDate>
+        	<lbType desc="劳保类型">field0006</lbType>
+        	<approve desc="审批状态">field0008</approve>
+        	<version desc="版本号">field0009</version>
+        </historyFormMain>
+        <historyFormSon>
+        	<formSonTable>formson_0103</formSonTable>
+        	<lbNumber desc="序号">field0010</lbNumber>
+        	<lbName desc="劳保物品">field0011</lbName>
+        	<lbCode desc="编码">field0012</lbCode>
+        	<lbSize desc="尺码">field0013</lbSize>
+        	<lbQuantity desc="数量">field0014</lbQuantity>
+        </historyFormSon>
+        <!-- 历史纪录表 END -->
+        
 	</trlaobao>
 </ctpConfig>

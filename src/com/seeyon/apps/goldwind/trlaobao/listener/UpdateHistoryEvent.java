@@ -1,28 +1,21 @@
 package com.seeyon.apps.goldwind.trlaobao.listener;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.goldwind.trlaobao.manager.LbManager;
-import com.seeyon.apps.goldwind.trlaobao.vo.UpdateVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.mainbody.MainbodyType;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.form.bean.FormDataMasterBean;
-import com.seeyon.ctp.form.bean.FormDataSubBean;
 import com.seeyon.ctp.form.service.FormService;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.manager.OrgManagerImpl;
 import com.seeyon.ctp.workflow.event.AbstractWorkflowEvent;
 import com.seeyon.ctp.workflow.event.WorkflowEventData;
 import com.seeyon.ctp.workflow.event.WorkflowEventResult;
 
-public class UpdateSizeFlowEvent extends AbstractWorkflowEvent{
+public class UpdateHistoryEvent extends AbstractWorkflowEvent{
 
 	private static Logger LOGGER = Logger.getLogger(UpdateSizeFlowEvent.class);
 	private LbManager lbManager;
@@ -33,12 +26,12 @@ public class UpdateSizeFlowEvent extends AbstractWorkflowEvent{
 
 	@Override
 	public String getId() {
-		return "updateSizeFlowEvent";
+		return "updateHistoryEvent";
 	}
 
 	@Override
 	public String getLabel() {
-		return "劳保用品尺码更新";
+		return "历史底表审批状态更新";
 	}
 
 	@Override
@@ -73,6 +66,8 @@ public class UpdateSizeFlowEvent extends AbstractWorkflowEvent{
 	public void onFinishWorkitem(WorkflowEventData data) {
 		LOGGER.info("进入流程处理后事件");	
 	}
+	
+	
 	/**
 	 * 
 	 *  获取主表和重复表数据
@@ -82,46 +77,13 @@ public class UpdateSizeFlowEvent extends AbstractWorkflowEvent{
 	 */
 	public void getFormData4Bsk(FormDataMasterBean masterBean) throws BusinessException {
 		LOGGER.info("===进入获取主表和重复表数据方法===");
-		
-		List<UpdateVo> listVo=new ArrayList<UpdateVo>();
-		String userCode=null;
+		String version=null;
 		// getFieldValue 获取主表数据
-		Object userCodeObject = masterBean.getFieldValue(AppContext.getSystemProperty("trlaobao.updateFormMain.userCode"));
-		if (userCodeObject != null) {
-			LOGGER.info("人员编码 userCodeObject："+userCodeObject.toString());
-			userCode=userCodeObject.toString();
-			//OrgManager org=new OrgManagerImpl();
-			//注释掉的部分是如果这个字段（例：field0001）里面存储的是人员的ID，就通过下面的部门取出人员的属性
-			//V3xOrgMember v3=org.getMemberById(Long.parseLong(userName.toString()));
-			//LOGGER.info("发起者姓名："+v3.getName());
-			//LOGGER.info("发起者创建时间："+v3.getCreateTime());
-			//LOGGER.info("发起者编码："+v3.getCode());
-			
+		Object versionObj = masterBean.getFieldValue(AppContext.getSystemProperty("trlaobao.formMain.version"));
+		if (versionObj != null) {
+			LOGGER.info("版本号version："+versionObj.toString());
+			version=versionObj.toString(); 
 		}
-		
-		// getSubData 获取重复表数据
-		List<FormDataSubBean> subList = masterBean.getSubData(AppContext.getSystemProperty("trlaobao.updateFormSon.tableName"));
-		for (FormDataSubBean subBean : subList) {
-			UpdateVo updateVo=new UpdateVo();
-			Object lbCode = subBean.getFieldValue(AppContext.getSystemProperty("trlaobao.updateFormSon.lbCode"));
-			Object lbSize = subBean.getFieldValue(AppContext.getSystemProperty("trlaobao.updateFormSon.lbSize"));
-			
-			if (userCode!=null) {
-				LOGGER.info("人员编码："+userCode);
-				updateVo.setUserCode(userCode);
-			}
-			if (lbCode != null) {
-				LOGGER.info("劳保编码	" + lbCode.toString());
-				updateVo.setLbCode( lbCode.toString());
-			}
-			if (lbSize != null) {
-				LOGGER.info("劳保更新尺寸	" + lbSize.toString());
-				updateVo.setLbSize( lbSize.toString());
-			}
-			listVo.add(updateVo);
-		}
-		lbManager.updateSize(listVo);
+		lbManager.updateHistoryStatus(version);
 	}
-
-	
 }
