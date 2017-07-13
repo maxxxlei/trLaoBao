@@ -2,18 +2,26 @@
 <ctpConfig>
 	<trlaobao>
 	
-		<!-- 修改劳保尺寸表单  maintenance (维护) START -->
+		
+		
+		<!-- 人员信息维护表 start-->
 		<maintenanceFormMain>
 			<tableName>formmain_0094</tableName>
+			<company>field0001</company>
+			<department>field0002</department>
+			<post>field0003</post>
+			<lbtype>field0006</lbtype>
 			<userCode>field0007</userCode>
 		</maintenanceFormMain>
 		<maintenanceFormSon>
 			<tableName>formson_0095</tableName>
+			<lbName>field0009</lbName>
 			<lbCode>field0010</lbCode>
 			<lbSize>field0011</lbSize>
+			<sendTime>field0012</sendTime>
 		</maintenanceFormSon>
-		
-		
+		<!-- 人员信息维护表 end -->
+		<!-- 修改劳保尺寸表单  maintenance (维护) START -->
 		<updateFormMain>
 			<tableName>formmain_0096</tableName>
 			<userCode>field0007</userCode>
@@ -71,6 +79,8 @@
         	<lbQuantity desc="数量">field0014</lbQuantity>
         </historyFormSon>
         <!-- 历史纪录表 END -->
+        
+        
         
 	</trlaobao>
 </ctpConfig>

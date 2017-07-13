@@ -1,9 +1,11 @@
 package com.seeyon.apps.goldwind.trlaobao.dao;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -11,6 +13,7 @@ import com.seeyon.apps.goldwind.trlaobao.vo.HistoryVo;
 import com.seeyon.apps.goldwind.trlaobao.vo.UpdateVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.UUIDLong;
 
@@ -126,5 +129,48 @@ public class LbDaoImpl implements LbDao{
 		} finally {
 			jdbc.close();
 		}
+	}
+	
+	@Override
+	public FlipInfo getLaoBaoList(FlipInfo flipInfo, Map<String, String> query) throws BusinessException {
+		LOGGER.info("******进入查询人员信息底表方法****");
+		
+		String formMainTableName=AppContext.getSystemProperty("trlaobao.maintenanceFormMain.tableName");
+		String userCode =AppContext.getSystemProperty("trlaobao.maintenanceFormMain.userCode");
+		String company=AppContext.getSystemProperty("trlaobao.maintenanceFormMain.company");
+		String department=AppContext.getSystemProperty("trlaobao.maintenanceFormMain.department");
+		String lbType=AppContext.getSystemProperty("trlaobao.maintenanceFormMain.lbType");
+		String post=AppContext.getSystemProperty("trlaobao.maintenanceFormMain.post");
+		
+		String sonTableName=AppContext.getSystemProperty("trlaobao.maintenanceFormSon.tableName");
+		String lbCode=AppContext.getSystemProperty("trlaobao.maintenanceFormSon.lbCode");
+		String lbName=AppContext.getSystemProperty("trlaobao.maintenanceFormSon.lbName");
+		String lbSize=AppContext.getSystemProperty("trlaobao.maintenanceFormSon.lbSize");
+		String sendTime=AppContext.getSystemProperty("trlaobao.maintenanceFormSon.sendTime");
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("select field0004 as NAME,"+userCode+" as CODE, "+company+" as COMPANY, "+department+" as DEPARTMENT ,"+ 
+				""+post+" as POST ,"+lbName+" as LAOBAO,"+lbType+" as TYPE, "+lbCode+" as LBCODE,"+lbSize+" as SIZE ,"+sendTime+" as SENDTIME,0 as QUANTITY from "+
+				""+formMainTableName+" m right join "+sonTableName+" s on (m.id=s.formmain_id) ");
+		if (query.get("type")!=null) {
+			sb.append(" where "+lbType+" = '"+query.get("type")+"'");
+			if (query.get("fromTime")!=null) {
+				sb.append(" and "+sendTime+">'"+query.get("fromTime")+"'");
+				if (query.get("toTime")!=null) {
+					sb.append(" and "+sendTime+"<'"+query.get("toTime")+"'");
+				}
+			}
+		}
+		LOGGER.info("******分页方法查询sql=" + sb);
+		JDBCAgent jdbc = new JDBCAgent(false);
+		try {
+			jdbc.findByPaging(sb.toString(), flipInfo);
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new BusinessException(e);
+		} finally {
+			jdbc.close();
+		}
+		return flipInfo;
 	}
 }

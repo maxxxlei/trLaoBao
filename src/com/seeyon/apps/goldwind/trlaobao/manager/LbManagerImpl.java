@@ -17,6 +17,7 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.form.modules.serialNumber.SerialNumberManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.FlipInfo;
 
 public class LbManagerImpl implements LbManager{
 	private LbDao lbDao;
@@ -147,4 +148,13 @@ public class LbManagerImpl implements LbManager{
 	public void updateHistoryStatus(String version) throws BusinessException {
 		lbDao.updateHistoryStatus(version);
 	}
+
+	@Override
+	public FlipInfo getLaoBaoList(FlipInfo flipInfo, Map<String, String> query)
+			throws BusinessException {
+		LOGGER.info("=======getLaoBaoList查询managerimpl====");
+		return lbDao.getLaoBaoList(flipInfo, query);
+	}
+	
+	
 }
